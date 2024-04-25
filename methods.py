@@ -1,5 +1,4 @@
 from tkinter import *
-from tkinter import messagebox
 from tkinter.ttk import *
 from tkinter.filedialog import askopenfile
 from pypdf import PdfReader

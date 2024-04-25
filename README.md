@@ -24,11 +24,33 @@ Usage
 3.  **Database Entry:** Click the "Enter Into Database" button to store the extracted data in a database.
 4.  **AI Prediction:** Finally, click the "Predict Categories" button to categorize expense descriptions using AI.
 
+Getting Started
+---------------
+
+To get started with the Bank Statement Analyzer, follow these steps:
+
+1.  Clone the repository to your local machine.
+2.  Install the required packages listed below.
+3.  Run the `toFile.py` file to initialize the database.
+4.  Manually categorize entries in the `items.json` file for better AI accuracy.
+5.  Run the main program to begin analyzing TRUIST bank statements.
+
 Note
 ----
 
 *   This program is currently in development, and almost all commits will be done in the development branch. For contributions, it is recommended to download from the development branch.
 *   The program currently only supports TRUIST bank statements due to a lack of access to other bank statements for development purposes.
-*   **Important:** Run the `toFile.py` file first to initialize the database. Afterward, manually categorize entries in the `items.json` file to improve the accuracy of the AI model. The more entries categorized, the better and more accurate the AI model will be.
+*   **Important:** The more entries you categorize in the `items.json` file, the better and more accurate the AI model will be.
+
+Packages Required
+-----------------
+
+*   `tkinter`
+*   `pypdf`
+*   `os`
+*   `re`
+*   `json`
+*   `nltk`
+*   `sklearn`
 
 *** 
