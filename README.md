@@ -31,4 +31,4 @@ Note
 *   The program currently only supports TRUIST bank statements due to a lack of access to other bank statements for development purposes.
 *   **Important:** Run the `toFile.py` file first to initialize the database. Afterward, manually categorize entries in the `items.json` file to improve the accuracy of the AI model. The more entries categorized, the better and more accurate the AI model will be.
 
-***
+*** 
