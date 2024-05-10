@@ -57,14 +57,27 @@ new_expenses = [
     "DEBITCARDPURCHASE TRUETT'S GRILL-MOR 12-07MORROW GA0731",
     "DEBITCARDPURCHASE CHEVRON 038078712-07JONESBORO GA0731",
     "DEBITCARDPURCHASE-PIN 51-18-92MORROW GA0731WAL-MART #1047",
-    "DEBITCARDRECURRING PYMTSPOTIFY12-12612-555-1111 NY0731"
+    "DEBITCARDRECURRING PYMTSPOTIFY12-12612-555-1111 NY0731",
+    "DEBITCARDRECURRING PYMTSPOTIFY12-12612-555-1111 NY0555"
 ]
 
-# Predict categories for new expenses
-X_new = [preprocess_text(expense) for expense in new_expenses]
-X_new_vectorized = vectorizer.transform(X_new)
-predicted_categories = classifier.predict(X_new_vectorized)
+def predict(entries):
+    entry = entries.keys()
+    # Predict categories for new expenses
+    X_new = [preprocess_text(expense) for expense in entry]
+    X_new_vectorized = vectorizer.transform(X_new)
+    predicted_categories = classifier.predict(X_new_vectorized)
 
-# Output predicted categories for new expenses
-for expense, category in zip(new_expenses, predicted_categories):
-    print(f"Expense: {expense} | Predicted Category: {category}")
+    output = {}
+
+    # Output predicted categories for new expenses
+    for expense, category in zip(entries, predicted_categories):
+        if output.get(category) is not None:
+            output[category].update({expense:entries[expense]})#[expense]
+        else:
+            output[category] = {expense:entries[expense]}
+        #print(f"Expense: {expense} | Predicted Category: {category}")
+    return output
+
+#print(predict(new_expenses))
+
