@@ -1,19 +1,15 @@
 from tkinter import *
+from tkinter import messagebox
 from tkinter.ttk import *
 from tkinter.filedialog import askopenfile
 from pypdf import PdfReader
 import json
 import os
 import re
-
-def open_file(title, frame):
+    
+def open_file():
     file = askopenfile(mode='r', filetypes=[('Test files', '*.pdf')])
-    if file is not None:
-        path = os.path.abspath(file.name)
-        base = os.path.basename(file.name)
-        
-        title.config(text=f'File Selected: {base}')
-        
+    if file is not None:        
         
         reader = PdfReader(os.path.abspath(file.name))
         
@@ -27,15 +23,12 @@ def open_file(title, frame):
                 
                 global data 
                 data = split_expenses(filter_non_date_strings(expenses))
+                print(data)
                 
-                global listbox
-                listbox = Listbox(frame, height=22, width=80, activestyle='dotbox', bg='grey', relief=RAISED)
-                listbox.grid(row=1,  column=0,  padx=5,  pady=40)
-                listbox.bind("<ButtonRelease-1>", on_click)
                 counter = 1
                 
                 for expense in data:
-                    listbox.insert(counter, expense["Description"])
+                    #listbox.insert(counter, expense["Description"])
                     counter += 1
                 #frame.config(justify='left', text=f'{descriptions}')
                 #print(descriptions)
