@@ -7,7 +7,6 @@ import os
 import re
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import numpy as np
 
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
