@@ -10,7 +10,7 @@ Overview
 
 The Expense Evaluation is a work-in-progress program designed to help users categorize their expenses based on descriptions in their TRUIST bank statements. The program features a graphical user interface (GUI) that allows users to select a TRUIST bank statement file, extract its contents, and either store them in a database to help the model learn, or graph out their expenses so they can view what it is they are spending the most on. Using artificial intelligence (AI), the program attempts to predict the category to which each expense description belongs.
 
-![Expense Evaluation Screenshot](./images/Audit.png)
+<img src="./images/Audit.png" alt="drawing" width="366"/> <img src="./images/Audit2.png" alt="drawing" width="366"/>
 
 
 
