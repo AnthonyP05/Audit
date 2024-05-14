@@ -52,22 +52,13 @@ X_train_vectorized = vectorizer.fit_transform(X_train)
 classifier = LogisticRegression()
 classifier.fit(X_train_vectorized, y_train)
 
-# Preprocess new expenses
-new_expenses = [
-    "DEBITCARDPURCHASE TRUETT'S GRILL-MOR 12-07MORROW GA0731",
-    "DEBITCARDPURCHASE CHEVRON 038078712-07JONESBORO GA0731",
-    "DEBITCARDPURCHASE-PIN 51-18-92MORROW GA0731WAL-MART #1047",
-    "DEBITCARDRECURRING PYMTSPOTIFY12-12612-555-1111 NY0731",
-    "DEBITCARDRECURRING PYMTSPOTIFY12-12612-555-1111 NY0555"
-]
-
 def predict(entries):
-    entry = entries.keys()
     # Predict categories for new expenses
-    X_new = [preprocess_text(expense) for expense in entry]
+    X_new = [preprocess_text(expense) for expense in entries.keys()]
     X_new_vectorized = vectorizer.transform(X_new)
     predicted_categories = classifier.predict(X_new_vectorized)
 
+    # Initialization of a dictionary of categories and their costs
     output = {}
 
     # Output predicted categories for new expenses
@@ -76,8 +67,5 @@ def predict(entries):
             output[category].update({expense:entries[expense]})#[expense]
         else:
             output[category] = {expense:entries[expense]}
-        #print(f"Expense: {expense} | Predicted Category: {category}")
     return output
-
-#print(predict(new_expenses))
 
