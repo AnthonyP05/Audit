@@ -25,6 +25,8 @@ class App(customtkinter.CTk):
         self.grid_columnconfigure((2, 3), weight=0)
         self.grid_rowconfigure((0, 1, 2), weight=1)
         
+        
+        
         # create sidebar frame with widgets
         self.sidebar_frame = customtkinter.CTkFrame(self, width=140, corner_radius=0)
         self.sidebar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
@@ -86,55 +88,67 @@ class App(customtkinter.CTk):
         self.category_date_frame = customtkinter.CTkFrame(self.right_title_frame, fg_color="transparent")
         self.category_date_frame.grid(row=1, column=0, rowspan=4)
         
+        category_padding_x = (5, 0)
+        category_padding_y = (0, 4)
+        
         # I guess this it category titles
         self.right_title_category_title_housing = customtkinter.CTkLabel(self.category_date_frame, text="Housing", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="left", justify="left", anchor="w")
-        self.right_title_category_title_housing.grid(row=0, column=0, padx=(5, 0), pady=(0, 7), sticky="nsew")
+        self.right_title_category_title_housing.grid(row=0, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
         self.right_title_category_title_utilities = customtkinter.CTkLabel(self.category_date_frame, text="Utilites", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="left", justify="left", anchor="w")
-        self.right_title_category_title_utilities.grid(row=1, column=0, padx=(5, 0), pady=(0, 7), sticky="nsew")
+        self.right_title_category_title_utilities.grid(row=1, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
         self.right_title_category_title_food = customtkinter.CTkLabel(self.category_date_frame, text="Food", font=customtkinter.CTkFont(size=14), compound="left", text_color="gray70", justify="left", anchor="w")
-        self.right_title_category_title_food.grid(row=2, column=0, padx=(5, 0), pady=(0, 7), sticky="nsew")
+        self.right_title_category_title_food.grid(row=2, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
         self.right_title_category_title_transportation = customtkinter.CTkLabel(self.category_date_frame, text="Transportation", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="left", justify="left", anchor="w")
-        self.right_title_category_title_transportation.grid(row=3, column=0, padx=(5, 0), pady=(0, 7), sticky="nsew")
+        self.right_title_category_title_transportation.grid(row=3, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
         self.right_title_category_title_healthcare = customtkinter.CTkLabel(self.category_date_frame, text="Healthcare", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="left", justify="left", anchor="w")
-        self.right_title_category_title_healthcare.grid(row=4, column=0, padx=(5, 0), pady=(0, 7), sticky="nsew")
+        self.right_title_category_title_healthcare.grid(row=4, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
         self.right_title_category_title_insurance = customtkinter.CTkLabel(self.category_date_frame, text="Insurance", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="left", justify="left", anchor="w")
-        self.right_title_category_title_insurance.grid(row=5, column=0, padx=(5, 0), pady=(0, 7), sticky="nsew")
+        self.right_title_category_title_insurance.grid(row=5, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
         self.right_title_category_title_debt = customtkinter.CTkLabel(self.category_date_frame, text="Debt Payments", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="left", justify="left", anchor="w")
-        self.right_title_category_title_debt.grid(row=6, column=0, padx=(5, 0), pady=(0, 7), sticky="nsew")
+        self.right_title_category_title_debt.grid(row=6, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
         self.right_title_category_title_personal = customtkinter.CTkLabel(self.category_date_frame, text="Personal Care", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="left", justify="left", anchor="w")
-        self.right_title_category_title_personal.grid(row=7, column=0, padx=(5, 0), pady=(0, 7), sticky="nsew")
+        self.right_title_category_title_personal.grid(row=7, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
         self.right_title_category_title_entertainment = customtkinter.CTkLabel(self.category_date_frame, text="Entertainment", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="left", justify="left", anchor="w")
-        self.right_title_category_title_entertainment.grid(row=8, column=0, padx=(5, 0), pady=(0, 7), sticky="nsew")
+        self.right_title_category_title_entertainment.grid(row=8, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
         self.right_title_category_title_savings = customtkinter.CTkLabel(self.category_date_frame, text="Savings", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="left", justify="left", anchor="w")
-        self.right_title_category_title_savings.grid(row=9, column=0, padx=(5, 0), pady=(0, 7), sticky="nsew")
+        self.right_title_category_title_savings.grid(row=9, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
         self.right_title_category_title_misc = customtkinter.CTkLabel(self.category_date_frame, text="Miscellaneous", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="left", justify="left", anchor="w")
-        self.right_title_category_title_misc.grid(row=10, column=0, padx=(5, 0), pady=(0, 7), sticky="nsew")
+        self.right_title_category_title_misc.grid(row=10, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
+        
+        self.right_title_category_title_total = customtkinter.CTkLabel(self.category_date_frame, text="Total Spent:", font=customtkinter.CTkFont(size=14), text_color="gray40", compound="left", justify="left", anchor="w")
+        self.right_title_category_title_total.grid(row=11, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
         
         #self.right_title_category_title.text_label.place(relx=0, anchor="w")
         
+        percentages_padding_x = (20, 5)
+        percentages_padding_y = (0, 4)
+        
         # I guess this is % for categories
-        self.right_title_percentages_housing = customtkinter.CTkLabel(self.category_date_frame, text="x%", font=customtkinter.CTkFont(size=14), compound="right", justify="right", anchor="e")
-        self.right_title_percentages_housing.grid(row=0, column=1, padx=(20, 5), pady=(0, 7), sticky="nsew")
-        self.right_title_percentages_utilities = customtkinter.CTkLabel(self.category_date_frame, text="x%", font=customtkinter.CTkFont(size=14), compound="right", justify="right", anchor="e")
-        self.right_title_percentages_utilities.grid(row=1, column=1, padx=(20, 5), pady=(0, 7), sticky="nsew")
-        self.right_title_percentages_food = customtkinter.CTkLabel(self.category_date_frame, text="x%", font=customtkinter.CTkFont(size=14), compound="right", justify="right", anchor="e")
-        self.right_title_percentages_food.grid(row=2, column=1, padx=(20, 5), pady=(0, 7), sticky="nsew")
-        self.right_title_percentages_transportation = customtkinter.CTkLabel(self.category_date_frame, text="x%", font=customtkinter.CTkFont(size=14), compound="right", justify="right", anchor="e")
-        self.right_title_percentages_transportation.grid(row=3, column=1, padx=(20, 5), pady=(0, 7), sticky="nsew")
-        self.right_title_percentages_healthcare = customtkinter.CTkLabel(self.category_date_frame, text="x%", font=customtkinter.CTkFont(size=14), compound="right", justify="right", anchor="e")
-        self.right_title_percentages_healthcare.grid(row=4, column=1, padx=(20, 5), pady=(0, 7), sticky="nsew")
-        self.right_title_percentages_insurance = customtkinter.CTkLabel(self.category_date_frame, text="x%", font=customtkinter.CTkFont(size=14), compound="right", justify="right", anchor="e")
-        self.right_title_percentages_insurance.grid(row=5, column=1, padx=(20, 5), pady=(0, 7), sticky="nsew")
-        self.right_title_percentages_debt = customtkinter.CTkLabel(self.category_date_frame, text="x%", font=customtkinter.CTkFont(size=14), compound="right", justify="right", anchor="e")
-        self.right_title_percentages_debt.grid(row=6, column=1, padx=(20, 5), pady=(0, 7), sticky="nsew")
-        self.right_title_percentages_personal = customtkinter.CTkLabel(self.category_date_frame, text="x%", font=customtkinter.CTkFont(size=14), compound="right", justify="right", anchor="e")
-        self.right_title_percentages_personal.grid(row=7, column=1, padx=(20, 5), pady=(0, 7), sticky="nsew")
-        self.right_title_percentages_entertainment = customtkinter.CTkLabel(self.category_date_frame, text="x%", font=customtkinter.CTkFont(size=14), compound="right", justify="right", anchor="e")
-        self.right_title_percentages_entertainment.grid(row=8, column=1, padx=(20, 5), pady=(0, 7), sticky="nsew")
-        self.right_title_percentages_savings = customtkinter.CTkLabel(self.category_date_frame, text="x%", font=customtkinter.CTkFont(size=14), compound="right", justify="right", anchor="e")
-        self.right_title_percentages_savings.grid(row=9, column=1, padx=(20, 5), pady=(0, 7), sticky="nsew")
-        self.right_title_percentages_misc = customtkinter.CTkLabel(self.category_date_frame, text="x%", font=customtkinter.CTkFont(size=14), compound="right", justify="right", anchor="e")
-        self.right_title_percentages_misc.grid(row=10, column=1, padx=(20, 5), pady=(0, 7), sticky="nsew")
+        self.right_title_percentages_housing = customtkinter.CTkLabel(self.category_date_frame, text="$0", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="right", justify="right", anchor="e")
+        self.right_title_percentages_housing.grid(row=0, column=1, padx=percentages_padding_x, pady=percentages_padding_y, sticky="nsew")
+        self.right_title_percentages_utilities = customtkinter.CTkLabel(self.category_date_frame, text="$0", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="right", justify="right", anchor="e")
+        self.right_title_percentages_utilities.grid(row=1, column=1, padx=percentages_padding_x, pady=percentages_padding_y, sticky="nsew")
+        self.right_title_percentages_food = customtkinter.CTkLabel(self.category_date_frame, text="$0", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="right", justify="right", anchor="e")
+        self.right_title_percentages_food.grid(row=2, column=1, padx=percentages_padding_x, pady=percentages_padding_y, sticky="nsew")
+        self.right_title_percentages_transportation = customtkinter.CTkLabel(self.category_date_frame, text="$0", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="right", justify="right", anchor="e")
+        self.right_title_percentages_transportation.grid(row=3, column=1, padx=percentages_padding_x, pady=percentages_padding_y, sticky="nsew")
+        self.right_title_percentages_healthcare = customtkinter.CTkLabel(self.category_date_frame, text="$0", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="right", justify="right", anchor="e")
+        self.right_title_percentages_healthcare.grid(row=4, column=1, padx=percentages_padding_x, pady=percentages_padding_y, sticky="nsew")
+        self.right_title_percentages_insurance = customtkinter.CTkLabel(self.category_date_frame, text="$0", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="right", justify="right", anchor="e")
+        self.right_title_percentages_insurance.grid(row=5, column=1, padx=percentages_padding_x, pady=percentages_padding_y, sticky="nsew")
+        self.right_title_percentages_debt = customtkinter.CTkLabel(self.category_date_frame, text="$0", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="right", justify="right", anchor="e")
+        self.right_title_percentages_debt.grid(row=6, column=1, padx=percentages_padding_x, pady=percentages_padding_y, sticky="nsew")
+        self.right_title_percentages_personal = customtkinter.CTkLabel(self.category_date_frame, text="$0", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="right", justify="right", anchor="e")
+        self.right_title_percentages_personal.grid(row=7, column=1, padx=percentages_padding_x, pady=percentages_padding_y, sticky="nsew")
+        self.right_title_percentages_entertainment = customtkinter.CTkLabel(self.category_date_frame, text="$0", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="right", justify="right", anchor="e")
+        self.right_title_percentages_entertainment.grid(row=8, column=1, padx=percentages_padding_x, pady=percentages_padding_y, sticky="nsew")
+        self.right_title_percentages_savings = customtkinter.CTkLabel(self.category_date_frame, text="$0", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="right", justify="right", anchor="e")
+        self.right_title_percentages_savings.grid(row=9, column=1, padx=percentages_padding_x, pady=percentages_padding_y, sticky="nsew")
+        self.right_title_percentages_misc = customtkinter.CTkLabel(self.category_date_frame, text="$0", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="right", justify="right", anchor="e")
+        self.right_title_percentages_misc.grid(row=10, column=1, padx=percentages_padding_x, pady=percentages_padding_y, sticky="nsew")
+        
+        self.right_title_percentages_total = customtkinter.CTkLabel(self.category_date_frame, text="$0", font=customtkinter.CTkFont(size=14), text_color="gray40", compound="right", justify="right", anchor="e")
+        self.right_title_percentages_total.grid(row=11, column=1, padx=percentages_padding_x, pady=(0, 7), sticky="nsew")
         
         # create main entry and button
         self.entry = customtkinter.CTkEntry(self.title_frame, placeholder_text="N/A")
@@ -150,11 +164,37 @@ class App(customtkinter.CTk):
         self.appearance_mode_optionemenu.set("System")
         self.scaling_optionemenu.set("100%")
 
-
+        # config colors
+        if customtkinter.get_appearance_mode() == "Light":
+            self.right_title_label.configure(text_color="#575757")
+            self.logo_label.configure(text_color="#575757")
+        elif customtkinter.get_appearance_mode() == "Dark":
+            self.right_title_label.configure(text_color="#DBDBDB")
+            self.logo_label.configure(text_color="#DBDBDB")
 
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
         customtkinter.set_appearance_mode(new_appearance_mode)
+        
+        if customtkinter.get_appearance_mode() == "Light":
+            if hasattr(self, "ax"):
+                for text in self.ax.texts: text.set_color("#575757")
+                self.fig.patch.set_facecolor("#DBDBDB")
+                self.fig.canvas.draw()
+            self.right_title_label.configure(text_color="#575757")
+            self.logo_label.configure(text_color="#575757")
+            
+        elif customtkinter.get_appearance_mode() == "Dark":
+            if hasattr(self, "ax"):
+                for text in self.ax.texts: text.set_color("#DBDBDB")
+                self.fig.patch.set_facecolor("#2B2B2B")
+                self.fig.canvas.draw()
+            self.right_title_label.configure(text_color="#DBDBDB")
+            self.logo_label.configure(text_color="#DBDBDB")
+            
+            
+        
+        
 
     def change_scaling_event(self, new_scaling: str):
         new_scaling_float = int(new_scaling.replace("%", "")) / 100
@@ -194,13 +234,13 @@ class App(customtkinter.CTk):
             
             expense_costs = {}
             
+            
             # Adds the total of each category and puts it into an array
             for category in predicted_data:
                 category_values = predicted_data[category]
-                expense_costs[category] = sum(float(value) for value in category_values.values())
-                
+                expense_costs[category] = round(sum(float(value) for value in category_values.values()), 2)
              
-            #total = sum(float(value) for value in expense_values.values())
+            total = round(sum(float(value) for value in expense_costs.values()), 2)
                 
             # Converting data acquired to a pie chart
             
@@ -209,17 +249,48 @@ class App(customtkinter.CTk):
             costs = list(expense_costs.values())
             
             # Create pie chart
-            fig, ax = plt.subplots()
-            ax.pie(costs, labels=categories, autopct='%1.1f%%', startangle=90)
-            ax.axis('equal')
-            fig.patch.set_facecolor("#2B2B2B")
+            self.fig, self.ax = plt.subplots()
+            self.ax.pie(costs, labels=categories, autopct='%1.1f%%', startangle=90)
+            self.ax.axis('equal')
+            
+            #self.fig.patch.set_facecolor("#2D2D2D") #
             self.entry.configure(placeholder_text=f'Graphing File: {os.path.basename(self.file.name)}')
             
-            fig.set_figheight(3.5)
-            #plt.subplots_adjust(top=0.8, bottom=0.1)
+            self.fig.set_figheight(3.5)
             
-            canvas = FigureCanvasTkAgg(fig, self.title_frame)
-            canvas.get_tk_widget().grid(row=1, column=0, columnspan=3, rowspan=3, pady=(0, 0))
+            self.canvas = FigureCanvasTkAgg(self.fig, self.title_frame)
+            self.canvas.get_tk_widget().grid(row=1, column=0, columnspan=3, rowspan=3, pady=(0, 0))
+            
+            if customtkinter.get_appearance_mode() == "Light":
+                for text in self.ax.texts: text.set_color("#575757")
+                self.fig.patch.set_facecolor("#DBDBDB")
+            elif customtkinter.get_appearance_mode() == "Dark":
+                for text in self.ax.texts: text.set_color("#DBDBDB")
+                self.fig.patch.set_facecolor("#2B2B2B")
+                
+            self.fig.canvas.draw()
+            self.right_title_percentages_total.configure(text=f'${total}')
+            
+            
+            
+            try:
+                #value = <value_if_true> if <expression> else <value_if_false>
+                self.right_title_percentages_housing.configure(text=f'${expense_costs["HOUSING"]}') if "HOUSING" in expense_costs else self.right_title_percentages_housing.configure(text=f'$0')
+                self.right_title_percentages_utilities.configure(text=f'${expense_costs["UTILITIES"]}') if "UTILITIES" in expense_costs else self.right_title_percentages_utilities.configure(text=f'$0')
+                self.right_title_percentages_food.configure(text=f'${expense_costs["FOOD"]}') if "FOOD" in expense_costs else self.right_title_percentages_food.configure(text=f'$0')
+                self.right_title_percentages_transportation.configure(text=f'${expense_costs["TRANSPORTATION"]}') if "TRANSPORTATION" in expense_costs else self.right_title_percentages_transportation.configure(text=f'$0')
+                self.right_title_percentages_healthcare.configure(text=f'${expense_costs["HEALTHCARE"]}') if "HEALTHCARE" in expense_costs else self.right_title_percentages_healthcare.configure(text=f'$0')
+                self.right_title_percentages_insurance.configure(text=f'${expense_costs["INSURANCE"]}') if "INSURANCE" in expense_costs else self.right_title_percentages_insurance.configure(text=f'$0')
+                self.right_title_percentages_debt.configure(text=f'${expense_costs["DEBT"]}') if "DEBT" in expense_costs else self.right_title_percentages_debt.configure(text=f'$0')
+                self.right_title_percentages_personal.configure(text=f'${expense_costs["PERSONAL"]}') if "PERSONAL" in expense_costs else self.right_title_percentages_personal.configure(text=f'$0')
+                self.right_title_percentages_entertainment.configure(text=f'${expense_costs["ENTERTAINMENT"]}') if "ENTERTAINMENT" in expense_costs else self.right_title_percentages_entertainment.configure(text=f'$0')
+                self.right_title_percentages_savings.configure(text=f'${expense_costs["SAVINGS"]}') if "SAVINGS" in expense_costs else self.right_title_percentages_savings.configure(text=f'$0')
+                self.right_title_percentages_misc.configure(text=f'${expense_costs["MISCELLANEOUS"]}') if "MISCELLANEOUS" in expense_costs else self.right_title_percentages_misc.configure(text=f'$0')
+            except SyntaxError as e:
+                print(e)
+                pass
+            
+            
         
             return 
         else:
