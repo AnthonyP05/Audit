@@ -3,7 +3,7 @@
 Expense Evaluation 
 =======================
 
-[![Development Status](https://img.shields.io/badge/status-in%20development-yellow)](https://github.com/AnthonyP05/Audit) [![Version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/AnthonyP05/Audit) [![Issues](https://img.shields.io/github/issues/AnthonyP05/Audit)](https://github.com/AnthonyP05/Audit/issues) [![Contributors](https://img.shields.io/badge/contributors-1-orange)](https://github.com/AnthonyP05/Audit/graphs/contributors)
+[![Development Status](https://img.shields.io/badge/status-in%20development-yellow)](https://github.com/AnthonyP05/Audit) [![Version](https://img.shields.io/badge/version-1.1-blue)](https://github.com/AnthonyP05/Audit) [![Issues](https://img.shields.io/github/issues/AnthonyP05/Audit)](https://github.com/AnthonyP05/Audit/issues) [![Contributors](https://img.shields.io/badge/contributors-1-orange)](https://github.com/AnthonyP05/Audit/graphs/contributors)
 
 Overview 
 -------- 
