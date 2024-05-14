@@ -37,7 +37,7 @@ class App(customtkinter.CTk):
         self.sidebar_button_0 = customtkinter.CTkButton(self.sidebar_frame, text="Graph File", command=self.data_to_graph)
         self.sidebar_button_0.grid(row=1, column=0, padx=20, pady=10)
         
-        self.sidebar_button_1 = customtkinter.CTkButton(self.sidebar_frame, text="Add to Database")
+        self.sidebar_button_1 = customtkinter.CTkButton(self.sidebar_frame, text="Add to Database", command=self.add_to_database)
         self.sidebar_button_1.grid(row=2, column=0, padx=20, pady=10)
         
         self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, text="Descriptions", command=self.sidebar_button_event)
@@ -163,6 +163,7 @@ class App(customtkinter.CTk):
         # default values
         self.appearance_mode_optionemenu.set("System")
         self.scaling_optionemenu.set("100%")
+        self.toplevel_window = None
 
         # config colors
         if customtkinter.get_appearance_mode() == "Light":
@@ -193,8 +194,6 @@ class App(customtkinter.CTk):
             self.logo_label.configure(text_color="#DBDBDB")
             
             
-        
-        
 
     def change_scaling_event(self, new_scaling: str):
         new_scaling_float = int(new_scaling.replace("%", "")) / 100
@@ -296,9 +295,15 @@ class App(customtkinter.CTk):
         else:
             self.entry.configure(placeholder_text="ERROR! Please select a file before continuing.")
             return None
-        
-
-        
+    
+    
+    # Opens a new window and Asks the user what item belongs to what category
+    def add_to_database(self):
+        if self.toplevel_window is None or not self.toplevel_window.winfo_exists():
+            self.toplevel_window = ToplevelWindow(self)  # create window if its None or destroyed
+            self.toplevel_window.focus()
+        else:
+            self.toplevel_window.focus()  # if window exists focus it
         
     # Filter things that aren't the date
     def filter_non_date_strings(self, text):
@@ -332,6 +337,18 @@ class App(customtkinter.CTk):
         plt.close('all')
         self.destroy()
         
+        
+class ToplevelWindow(customtkinter.CTkToplevel):
+    def __init__(self, app, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.geometry("400x300")
+
+        self.app = app
+        self.title("Expense Eval | Database Insertion")
+        self.label = customtkinter.CTkLabel(self, text=f'{self.app.title}')
+        self.label.pack(padx=20, pady=20)
+
+
 if __name__ == "__main__":
     app = App()
     app.protocol("WM_DELETE_WINDOW", app.on_closing)
