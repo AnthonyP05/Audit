@@ -7,6 +7,9 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 import string
 import json
+import os
+from prompt import Prompt
+from data import Data
 
 # Reads information from the json and uses that data to predict future data.
 
@@ -28,29 +31,43 @@ def preprocess_text(text):
     # Return the preprocessed text as a string
     return ' '.join(lemmatized_tokens)
 
-# Example expenses data
-try:
-    file = 'items.json'
-    file = open('items.json', 'r')
-    data = json.load(file)
-    expenses_data = [(entry["description"], entry["category"]) for entry in data]
-except IOError as e:
-    print(e)
+vectorizer = None
+classifier = None
 
-# Preprocess expenses data
-X = [preprocess_text(expense[0]) for expense in expenses_data]
-y = [expense[1] for expense in expenses_data]
 
-# Split the data into training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# TODO: Create check before running that checks if items.json has enough entries to start predicting
 
-# Create a TF-IDF vectorizer
-vectorizer = TfidfVectorizer()
-X_train_vectorized = vectorizer.fit_transform(X_train)
+# Load data
+def load():
+    try:
+        data = Data()
+        data.mainloop()
+        file = 'items.json'
+        if not os.path.exists(file):
+            file = Prompt.get_file()
+        file = open('items.json', 'r')
+        
+        data = json.load(file)
+        expenses_data = [(entry["description"], entry["category"]) for entry in data]
+    except IOError as e:
+        print(e)
 
-# Train a logistic regression classifier
-classifier = LogisticRegression()
-classifier.fit(X_train_vectorized, y_train)
+    # Preprocess expenses data
+    X = [preprocess_text(expense[0]) for expense in expenses_data]
+    y = [expense[1] for expense in expenses_data]
+
+    # Split the data into training and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Create a TF-IDF vectorizer
+    global vectorizer
+    vectorizer = TfidfVectorizer()
+    X_train_vectorized = vectorizer.fit_transform(X_train)
+
+    # Train a logistic regression classifier
+    global classifier
+    classifier = LogisticRegression()
+    classifier.fit(X_train_vectorized, y_train)
 
 def predict(entries):
     # Predict categories for new expenses
