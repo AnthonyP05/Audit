@@ -7,6 +7,9 @@ import os
 import re
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from prompt import Prompt  # Import Prompt class and the flag
+from data import Data
+from Model.predictionModel import load
 
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
@@ -45,6 +48,9 @@ class App(customtkinter.CTk):
         
         self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame, text="Configuration", command=self.sidebar_button_event)
         self.sidebar_button_3.grid(row=4, column=0, padx=20, pady=10)
+        
+        self.sidebar_button_4 = customtkinter.CTkButton(self.sidebar_frame, text="Categorize Entries", command=self.categorize)
+        self.sidebar_button_4.grid(row=4, column=0, padx=20, pady=10)
         
         
         
@@ -95,7 +101,7 @@ class App(customtkinter.CTk):
         # Category labels' titles within the Category frame
         self.right_title_category_title_housing = customtkinter.CTkLabel(self.category_date_frame, text="Housing", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="left", justify="left", anchor="w")
         self.right_title_category_title_housing.grid(row=0, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
-        self.right_title_category_title_utilities = customtkinter.CTkLabel(self.category_date_frame, text="Utilites", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="left", justify="left", anchor="w")
+        self.right_title_category_title_utilities = customtkinter.CTkLabel(self.category_date_frame, text="Utilities", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="left", justify="left", anchor="w")
         self.right_title_category_title_utilities.grid(row=1, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
         self.right_title_category_title_food = customtkinter.CTkLabel(self.category_date_frame, text="Food", font=customtkinter.CTkFont(size=14), compound="left", text_color="gray70", justify="left", anchor="w")
         self.right_title_category_title_food.grid(row=2, column=0, padx=category_padding_x, pady=category_padding_y, sticky="nsew")
@@ -235,7 +241,7 @@ class App(customtkinter.CTk):
             # Adds the total of each category and puts it into an array
             for category in predicted_data:
                 category_values = predicted_data[category]
-                expense_costs[category] = round(sum(float(value) for value in category_values.values()), 2)
+                expense_costs[category] = round(sum(float(value.replace(",", "")) for value in category_values.values()), 2)
              
             total = round(sum(float(value) for value in expense_costs.values()), 2)
                 
@@ -296,6 +302,10 @@ class App(customtkinter.CTk):
             self.toplevel_window.focus()
         else:
             self.toplevel_window.focus()  # if window exists focus it
+            
+    def categorize(self):
+        data = Data()
+        data.mainloop()
         
     # Filter things that aren't the date
     def filter_non_date_strings(self, text):
@@ -342,6 +352,17 @@ class ToplevelWindow(customtkinter.CTkToplevel):
 
 
 if __name__ == "__main__":
-    app = App()
-    app.protocol("WM_DELETE_WINDOW", app.on_closing)
-    app.mainloop()
+    file = os.path.exists("items.json")
+    if not file:
+        prompt = Prompt()
+        prompt.protocol("WM_DELETE_WINDOW", prompt.on_closing)
+        prompt.mainloop()    
+    
+    if file or prompt.get_result():
+        try:
+            load()
+            app = App()
+            app.protocol("WM_DELETE_WINDOW", app.on_closing)
+            app.mainloop()
+        except Exception as e:
+            print(f"Ignored error: {e}")
