@@ -127,8 +127,12 @@ class Prompt(customtkinter.CTk):
         return
                 
     def on_closing(self):
-        self.quit()
-        return
+        try:
+            self.quit()
+            self.destroy()
+            return
+        except TclError as e:
+            print(f'Error during closing {e}')
         
     def get_file(self):
         return self.file    
