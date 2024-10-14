@@ -68,6 +68,7 @@ def load():
     global classifier
     classifier = LogisticRegression()
     classifier.fit(X_train_vectorized, y_train)
+    return
 
 def predict(entries):
     # Predict categories for new expenses
