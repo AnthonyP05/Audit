@@ -17,6 +17,7 @@ customtkinter.set_default_color_theme("blue")
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
+        self.ids = []
         
         
         # config window (was x580)
@@ -43,10 +44,10 @@ class App(customtkinter.CTk):
         self.sidebar_button_1 = customtkinter.CTkButton(self.sidebar_frame, text="Add to Database", command=self.add_to_database)
         self.sidebar_button_1.grid(row=2, column=0, padx=20, pady=10)
         
-        self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, text="Descriptions", command=self.sidebar_button_event)
+        self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, text="Detailed Report", command=self.open_detailed_report)
         self.sidebar_button_2.grid(row=3, column=0, padx=20, pady=10)
         
-        self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame, text="Configuration", command=self.sidebar_button_event)
+        self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame, text="Configuration", command=self.configuration)
         self.sidebar_button_3.grid(row=4, column=0, padx=20, pady=10)
         
         self.sidebar_button_4 = customtkinter.CTkButton(self.sidebar_frame, text="Categorize Entries", command=self.categorize)
@@ -198,15 +199,36 @@ class App(customtkinter.CTk):
                 self.fig.canvas.draw()
             self.right_title_label.configure(text_color="#DBDBDB")
             self.logo_label.configure(text_color="#DBDBDB")
+        
+        self.ids.append(self.after(100, self.change_appearance_mode_event))
             
             
     # Changes the scaling of the application to desired choice
     def change_scaling_event(self, new_scaling: str):
         new_scaling_float = int(new_scaling.replace("%", "")) / 100
         customtkinter.set_widget_scaling(new_scaling_float)
+        self.ids.append(self.after(100, self.change_scaling_event))
 
-    def sidebar_button_event(self):
-        print("sidebar_button click")
+    # Create new window with detailed report 
+    def open_detailed_report(self):
+        # if self.file exists, or if a file has been chosen...
+        if hasattr(self, "file"):
+            prompt = Prompt()
+            content = prompt.content_to_JSON(self.file)
+            prompt.on_closing()
+            print(content)
+            # TODO: Modify current window to present data shown
+            
+            
+            self.entry.configure(placeholder_text=f"Detailed Report for: {os.path.basename(self.file.name)}")
+        else:
+            self.entry.configure(placeholder_text="ERROR! Please select a file before continuing.")
+            return None
+        return
+        
+    # TODO: this
+    def configuration(self):
+        return
         
     # Selects a desired file. 
     # TODO: Make it possible to catch a user trying to open a file that isn't a truist bank statement.
@@ -228,9 +250,11 @@ class App(customtkinter.CTk):
                     self.fullData = self.split_expenses(self.filter_non_date_strings(expenses))
                     # When file is selected, display file name in application
                     self.title_label.configure(text=f'Selected File: {os.path.basename(self.file.name)}', text_color="gray70")
+        self.ids.append(self.after(100, self.open_file))
     
-    # Returns a dictionary with payment entries seperated into different categories
+    # Returns a pie chart describing what percentage of your overall spending went to what category
     def data_to_graph(self):
+        self.ids.append(self.after(100, self.data_to_graph))
         # if self.file exists, or if a file has been chosen...
         if hasattr(self, "file"):
             entries = {x["Description"]: x["Amount"] for x in self.fullData}
@@ -295,17 +319,27 @@ class App(customtkinter.CTk):
             return None
     
     
-    # Opens a new window and Asks the user what item belongs to what category
+    # Opens a new window and Asks the user what item belongs to what category given the file provided.
     def add_to_database(self):
-        if self.toplevel_window is None or not self.toplevel_window.winfo_exists():
-            self.toplevel_window = ToplevelWindow(self)  # create window if its None or destroyed
-            self.toplevel_window.focus()
+        self.ids.append(self.after(100, self.add_to_database))
+        # if self.file exists, or if a file has been chosen...
+        if hasattr(self, "file"):
+            prompt = Prompt()
+            prompt.record_file(self.file)
+            data = Data()
+            data.protocol("WM_DELETE_WINDOW", data.on_closing)
+            data.mainloop()
+            
+            return
         else:
-            self.toplevel_window.focus()  # if window exists focus it
+            self.entry.configure(placeholder_text="ERROR! Please select a file before continuing.")
+            return None
             
     def categorize(self):
         data = Data()
+        data.protocol("WM_DELETE_WINDOW", data.on_closing)
         data.mainloop()
+        return
         
     # Filter things that aren't the date
     def filter_non_date_strings(self, text):
@@ -337,7 +371,12 @@ class App(customtkinter.CTk):
     
     def on_closing(self):
         plt.close('all')
-        self.after(50, self.destroy)
+        print(self.ids)
+        if len(self.ids) > 0:
+            for id in self.ids:
+                self.after_cancel(id)
+                print("Stopped: ", id)
+        return self.destroy()
         
         
 class ToplevelWindow(customtkinter.CTkToplevel):
@@ -354,15 +393,25 @@ class ToplevelWindow(customtkinter.CTkToplevel):
 if __name__ == "__main__":
     file = os.path.exists("items.json")
     if not file:
+        print("Before prompt")
         prompt = Prompt()
         prompt.protocol("WM_DELETE_WINDOW", prompt.on_closing)
-        prompt.mainloop()    
+        prompt.mainloop()   
+        print("After prompt") 
     
+    print("Before Main if")
     if file or prompt.get_result():
+        print("Before try")
         try:
+            print("Before load")
             load()
+            print("After load")
+            print("Before App")
             app = App()
             app.protocol("WM_DELETE_WINDOW", app.on_closing)
             app.mainloop()
+            print("After App")
+            
         except Exception as e:
             print(f"Ignored error: {e}")
+        
