@@ -1,5 +1,9 @@
 from tkinter import *
 import customtkinter
+
+customtkinter.set_appearance_mode("System")
+customtkinter.set_default_color_theme("blue")
+
 from tkinter.filedialog import askopenfile
 from pypdf import PdfReader
 from Model.predictionModel import predict
@@ -17,18 +21,18 @@ customtkinter.set_default_color_theme("blue")
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
-        self.ids = []
-        
+        self.id = None
         
         # config window (was x580)
         self.title("Expense Eval")
         self.geometry(f'{1100}x{580}')
         
+
+        
         # config grid layout (4x4)
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure((2, 3), weight=0)
         self.grid_rowconfigure((0, 1, 2), weight=1)
-        
         
         
         # create sidebar frame with widgets
@@ -37,7 +41,7 @@ class App(customtkinter.CTk):
         self.sidebar_frame.grid_rowconfigure(5, weight=1, uniform="Silent_Creme")
         self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="Expense", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
-        
+
         self.sidebar_button_0 = customtkinter.CTkButton(self.sidebar_frame, text="Graph File", command=self.data_to_graph)
         self.sidebar_button_0.grid(row=1, column=0, padx=20, pady=10)
         
@@ -54,7 +58,6 @@ class App(customtkinter.CTk):
         self.sidebar_button_4.grid(row=4, column=0, padx=20, pady=10)
         
         
-        
         # sidebar frame appearance settings
         self.appearance_mode_label = customtkinter.CTkLabel(self.sidebar_frame, text="Appearance Mode:", anchor="w")
         self.appearance_mode_label.grid(row=6, column=0, padx=20, pady=(10, 0))
@@ -68,7 +71,7 @@ class App(customtkinter.CTk):
                                                                command=self.change_scaling_event)
         self.scaling_optionemenu.grid(row=9, column=0, padx=20, pady=(10, 20))
         
-        
+
         # create title frame and label
         self.title_frame = customtkinter.CTkFrame(self, width=900)
         self.title_frame.grid(row=0, column=1, rowspan=4, padx=(20, 20), pady=(20, 20), sticky="nsew")
@@ -98,6 +101,7 @@ class App(customtkinter.CTk):
         # Padding for Category labels' titles within the Category frame
         category_padding_x = (5, 0)
         category_padding_y = (0, 4)
+        
         
         # Category labels' titles within the Category frame
         self.right_title_category_title_housing = customtkinter.CTkLabel(self.category_date_frame, text="Housing", font=customtkinter.CTkFont(size=14), text_color="gray70", compound="left", justify="left", anchor="w")
@@ -162,6 +166,7 @@ class App(customtkinter.CTk):
         self.entry = customtkinter.CTkEntry(self.title_frame, placeholder_text="N/A")
         self.entry.grid(row=4, column=0, columnspan=4, padx=(20, 0), pady=(20, 20), sticky="nsew")
 
+
         # File selection button
         self.main_button_1 = customtkinter.CTkButton(self.title_frame, text="Select File", command=self.open_file, fg_color="transparent", border_width=2, text_color=("gray10", "#DCE4EE"))
         self.main_button_1.grid(row=4, column=4, padx=(20, 20), pady=(20, 20), sticky="nsew")
@@ -171,6 +176,7 @@ class App(customtkinter.CTk):
         self.scaling_optionemenu.set("100%")
         self.toplevel_window = None
 
+
         # config colors
         if customtkinter.get_appearance_mode() == "Light":
             self.right_title_label.configure(text_color="#575757")
@@ -178,7 +184,7 @@ class App(customtkinter.CTk):
         elif customtkinter.get_appearance_mode() == "Dark":
             self.right_title_label.configure(text_color="#DBDBDB")
             self.logo_label.configure(text_color="#DBDBDB")
-
+            
 
     # Changes the color appearance of the application and pie chart (if applicable)
     def change_appearance_mode_event(self, new_appearance_mode: str):
@@ -198,16 +204,13 @@ class App(customtkinter.CTk):
                 self.fig.patch.set_facecolor("#2B2B2B")
                 self.fig.canvas.draw()
             self.right_title_label.configure(text_color="#DBDBDB")
-            self.logo_label.configure(text_color="#DBDBDB")
-        
-        self.ids.append(self.after(100, self.change_appearance_mode_event))
-            
+            self.logo_label.configure(text_color="#DBDBDB")                    
             
     # Changes the scaling of the application to desired choice
     def change_scaling_event(self, new_scaling: str):
         new_scaling_float = int(new_scaling.replace("%", "")) / 100
         customtkinter.set_widget_scaling(new_scaling_float)
-        self.ids.append(self.after(100, self.change_scaling_event))
+        
 
     # Create new window with detailed report 
     def open_detailed_report(self):
@@ -250,11 +253,9 @@ class App(customtkinter.CTk):
                     self.fullData = self.split_expenses(self.filter_non_date_strings(expenses))
                     # When file is selected, display file name in application
                     self.title_label.configure(text=f'Selected File: {os.path.basename(self.file.name)}', text_color="gray70")
-        self.ids.append(self.after(100, self.open_file))
     
     # Returns a pie chart describing what percentage of your overall spending went to what category
     def data_to_graph(self):
-        self.ids.append(self.after(100, self.data_to_graph))
         # if self.file exists, or if a file has been chosen...
         if hasattr(self, "file"):
             entries = {x["Description"]: x["Amount"] for x in self.fullData}
@@ -321,7 +322,6 @@ class App(customtkinter.CTk):
     
     # Opens a new window and Asks the user what item belongs to what category given the file provided.
     def add_to_database(self):
-        self.ids.append(self.after(100, self.add_to_database))
         # if self.file exists, or if a file has been chosen...
         if hasattr(self, "file"):
             prompt = Prompt()
@@ -334,7 +334,7 @@ class App(customtkinter.CTk):
         else:
             self.entry.configure(placeholder_text="ERROR! Please select a file before continuing.")
             return None
-            
+    
     def categorize(self):
         data = Data()
         data.protocol("WM_DELETE_WINDOW", data.on_closing)
@@ -370,48 +370,27 @@ class App(customtkinter.CTk):
         return expenses
     
     def on_closing(self):
-        plt.close('all')
-        print(self.ids)
-        if len(self.ids) > 0:
-            for id in self.ids:
-                self.after_cancel(id)
-                print("Stopped: ", id)
-        return self.destroy()
+        try:
+            plt.close('all')
+            self.quit()
+            self.destroy()
+        except TclError as e:
+            print(f'Error during closing: {e}')
         
-        
-class ToplevelWindow(customtkinter.CTkToplevel):
-    def __init__(self, app, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.geometry("400x300")
-
-        self.app = app
-        self.title("Expense Eval | Database Insertion")
-        self.label = customtkinter.CTkLabel(self, text=f'{self.app.title}')
-        self.label.pack(padx=20, pady=20)
-
-
 if __name__ == "__main__":
     file = os.path.exists("items.json")
     if not file:
-        print("Before prompt")
         prompt = Prompt()
         prompt.protocol("WM_DELETE_WINDOW", prompt.on_closing)
         prompt.mainloop()   
-        print("After prompt") 
     
-    print("Before Main if")
     if file or prompt.get_result():
-        print("Before try")
         try:
-            print("Before load")
             load()
-            print("After load")
-            print("Before App")
             app = App()
             app.protocol("WM_DELETE_WINDOW", app.on_closing)
             app.mainloop()
-            print("After App")
             
-        except Exception as e:
+        except TclError as e:
             print(f"Ignored error: {e}")
         
