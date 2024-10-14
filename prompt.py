@@ -56,55 +56,79 @@ class Prompt(customtkinter.CTk):
             
             if file.name == "items.json":
                 self.file = file.name
-                print("It EXISTS")
                 self.on_closing()
                 return
             
-            pdf = PdfReader(os.path.abspath(file.name))
-            for page in pdf.pages:
-                text = page.extract_text()
-                if "ESSENTIAL CHECKING" in text:
-                    start = text.find("DATEDESCRIPTION")
-                    end = text.find("Deposits, creditsandinterest")
-                    if (end == -1): end = text.find("continued")
-                    expenses = text[start:end]
-                    data = self.split_expenses(self.filter_non_date_strings(expenses))
-                    #print(data)
-                    items = []
-                    for expense in data:
-                        description = expense["Description"]
-                        amount = expense["Amount"]
-                        date = expense["Date"]
-                        category = ""
-                        items.append({"description" : description, "category": category, "date": date, "amount": amount})
-                    # Save data to JSON file
-                    file_path = 'items.json'
-                    if os.path.exists(file_path):
-                        # Read existing JSON file
-                        with open(file_path, 'r') as f:
-                            existing_items = json.load(f)
-                        descriptions = [d["description"] for d in existing_items]
-                    else:
-                        # Create an empty list if the file doesn't exist
-                        descriptions = []
-                        existing_items = []
+            self.record_file(file)        
+    
+    def record_file(self, file):
+        pdf = PdfReader(os.path.abspath(file.name))
+        for page in pdf.pages:
+            text = page.extract_text()
+            if "ESSENTIAL CHECKING" in text:
+                start = text.find("DATEDESCRIPTION")
+                end = text.find("Deposits, creditsandinterest")
+                if (end == -1): end = text.find("continued")
+                expenses = text[start:end]
+                data = self.split_expenses(self.filter_non_date_strings(expenses))
+                #print(data)
+                items = []
+                for expense in data:
+                    description = expense["Description"]
+                    amount = expense["Amount"]
+                    date = expense["Date"]
+                    category = ""
+                    items.append({"description" : description, "category": category, "date": date, "amount": amount})
+                # Save data to JSON file
+                file_path = 'items.json'
+                if os.path.exists(file_path):
+                    # Read existing JSON file
+                    with open(file_path, 'r') as f:
+                        existing_items = json.load(f)
+                    descriptions = [d["description"] for d in existing_items]
+                else:
+                    # Create an empty list if the file doesn't exist
+                    descriptions = []
+                    existing_items = []
 
-                    # Add new items to existing items if they are not already present
-                    for new_item in items:
-                        if new_item["description"] not in descriptions:                        
-                            existing_items.append(new_item)
-                            
-                
-                    # Write updated data back to the JSON file
-                    with open(file_path, 'w') as f:
-                        json.dump(existing_items, f, indent=4)
+                # Add new items to existing items if they are not already present
+                for new_item in items:
+                    if new_item["description"] not in descriptions:                        
+                        existing_items.append(new_item)
                         
-                    self.file = file_path
+            
+                # Write updated data back to the JSON file
+                with open(file_path, 'w') as f:
+                    json.dump(existing_items, f, indent=4)
+                    
+                self.file = file_path
         
         self.on_closing()
                 
+    def content_to_JSON(self, file):
+        pdf = PdfReader(os.path.abspath(file.name))
+        for page in pdf.pages:
+            text = page.extract_text()
+            if "ESSENTIAL CHECKING" in text:
+                start = text.find("DATEDESCRIPTION")
+                end = text.find("Deposits, creditsandinterest")
+                if (end == -1): end = text.find("continued")
+                expenses = text[start:end]
+                data = self.split_expenses(self.filter_non_date_strings(expenses))
+                #print(data)
+                items = []
+                for expense in data:
+                    description = expense["Description"]
+                    amount = expense["Amount"]
+                    date = expense["Date"]
+                    category = ""
+                    items.append({"description" : description, "category": category, "date": date, "amount": amount})
+                return items
+        return
+                
     def on_closing(self):
-        self.destroy()
+        self.quit()
+        return
         
     def get_file(self):
         return self.file    
@@ -112,3 +136,4 @@ class Prompt(customtkinter.CTk):
     def get_result(self):
         return self.result
         
+    
