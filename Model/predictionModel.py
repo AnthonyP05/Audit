@@ -41,6 +41,7 @@ classifier = None
 def load():
     try:
         data = Data()
+        data.protocol("WM_DELETE_WINDOW", data.on_closing)
         data.mainloop()
         file = 'items.json'
         if not os.path.exists(file):
