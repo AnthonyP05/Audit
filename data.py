@@ -1,3 +1,4 @@
+from tkinter import TclError
 import customtkinter
 import json
 import os
@@ -8,8 +9,7 @@ JSON_FILE_PATH = "items.json"
 class Data(customtkinter.CTk):
     def __init__(self):
         super().__init__()
-
-        print("Before Init")
+        self.id = None
         
         # Track the items and their categories
         self.items = []
@@ -37,22 +37,20 @@ class Data(customtkinter.CTk):
                 self.create_item_entry(item)
 
         # Add a button to save changes
-        submit_button = customtkinter.CTkButton(self, text="Submit", command=self.save_items)
+        submit_button = customtkinter.CTkButton(self, text="Submit", command=self.button_scheduling)
         submit_button.pack(pady=10)
-        
-        print("After Init")
-        
+                        
+    def button_scheduling(self):
+        self.after(100, self.save_items)
+                
     def load_items(self):
-        print("Before load")
         """Load items from the JSON file."""
         if os.path.exists(JSON_FILE_PATH):
             with open(JSON_FILE_PATH, 'r') as file:
                 self.items = json.load(file)
-        print("After load")
         return
 
     def create_item_entry(self, item):
-        print("Before Entry")
         """Create an entry for each item to specify the category."""
         frame = customtkinter.CTkFrame(self.scrollable_frame)
         frame.pack(pady=5, fill="x")
@@ -73,7 +71,6 @@ class Data(customtkinter.CTk):
         # Store the selected category in the entries dictionary
         self.entries[item['description']] = category_dropdown
         
-        print("After Entry")
         return
 
     def category_selected(self, value):
@@ -82,7 +79,6 @@ class Data(customtkinter.CTk):
         return
 
     def save_items(self):
-        print("Before Save")
         """Save the updated items with their categories back to the JSON file."""
         for description, dropdown in self.entries.items():
             # Update the category in items
@@ -97,14 +93,18 @@ class Data(customtkinter.CTk):
         with open(JSON_FILE_PATH, 'w') as file:
             json.dump(self.items, file, indent=4)
 
-
-        print("After Save")
+        #self.id = self.after(100000, self.save_items)
+        #self.id = self.after(100, self.on_closing())
         self.on_closing()
         
     
     def on_closing(self):
-        print(self.report_callback_exception)
-        print("Before Destroy")
-        self.destroy()
-        print("After Destroy")
-        return
+        try:
+            if self.id:
+                print("Cancelling")
+                self.after_cancel(self.id)
+                self.id = None
+            self.quit()
+            self.destroy()
+        except TclError as e:
+            print(f'Error occurred while closing: {e}')
